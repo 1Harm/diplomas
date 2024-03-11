@@ -4,6 +4,7 @@ import { FiSettings } from 'react-icons/fi';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 
 import { Navbar, Footer, Sidebar, ThemeSettings, UserList, CreateUserForm, UserInfo } from './components';
+import { PropertyList, CreatePropertyForm, PropertyDetail } from './components/property';
 import { Ecommerce, Orders, Calendar, Employees, Stacked, Pyramid, Customers, Kanban, Line, Area, Bar, Pie, Financial, ColorPicker, ColorMapping, Editor } from './pages';
 import './App.css';
 
@@ -88,11 +89,16 @@ const App = () => {
                 <Route path="/color-mapping" element={<ColorMapping />} />
                 <Route path="/pyramid" element={<Pyramid />} />
                 <Route path="/stacked" element={<Stacked />} />
-                
+
                 {/* users  */}
                 <Route path="/users" element={<UserList />} />
                 <Route path="/users/create" element={<CreateUserForm />} />
                 <Route path="/users/:id" element={<UserInfo />} />
+
+                {/* property  */}
+                <Route path="/properties" element={<PropertyList />} />
+                <Route path="/properties/create" element={<CreatePropertyForm />} />
+                <Route path="/properties/:id" element={<PropertyDetail />} />
 
               </Routes>
             </div>
