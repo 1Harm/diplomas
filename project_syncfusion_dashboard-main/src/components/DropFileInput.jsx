@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import './drop-file-input.css';
 
-import { ImageConfig } from '../../config/ImageConfig'; 
+import { ImageConfig } from '../config/ImageConfig';
 import uploadImg from '../assets/cloud-upload-regular-240.png';
 
 const DropFileInput = props => {
@@ -47,7 +47,7 @@ const DropFileInput = props => {
                     <img src={uploadImg} alt="" />
                     <p>Drag & Drop your files here</p>
                 </div>
-                <input type="file" value="" onChange={onFileDrop}/>
+                <input type="file" value="" onChange={onFileDrop} />
             </div>
             {
                 fileList.length > 0 ? (
