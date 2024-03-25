@@ -1,53 +1,53 @@
-import User from '../mongodb/models/user.js';
+import UserService from '../application/user.service.js';
 
-const getAllUsers = async (req, res) => {
-  try {
-    const users = await User.find({}).limit(req.query._end);
-
-    res.status(200).json(users);
-  } catch (error) {
-    res.status(500).json({ message: error.message })
-  }
-};
-
-const createUser = async (req, res) => {
-  try {
-    const { name, email, avatar } = req.body;
-  
-    const userExists = await User.findOne({ email });
-  
-    if(userExists) return res.status(200).json(userExists);
-  
-    const newUser = await User.create({
-      name,
-      email,
-      avatar
-    })
-  
-    res.status(200).json(newUser);
-  } catch (error) {
-    res.status(500).json({ message: error.message })
-  }
-};
-
-const getUserInfoByID = async (req, res) => {
-  try {
-    const { id } = req.params;
-    
-    const user = await User.findOne({ _id: id}).populate('allProperties');
-    
-    if(user) {
-      res.status(200).json(user)
-    } else {
-      res.status(404).json({ message: 'User not found' });
+const UserController = {
+  async register(req, res) {
+    try {
+      const newUser = await UserService.registerUser(req.body);
+      res.status(201).json(newUser);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
     }
-  } catch (error) {
-    res.status(500).json({ message: error.message })
-  }
-}; 
+  },
 
-export {
-  getAllUsers,
-  createUser,
-  getUserInfoByID,
-}
+  async getUser(req, res) {
+    try {
+      const userId = req.params.id;
+      const user = await UserService.getUserById(userId);
+      if (!user) {
+        return res.status(404).json({ message: 'Пользователь не найден' });
+      }
+      res.json(user);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  },
+
+  async updateUser(req, res) {
+    try {
+      const userId = req.params.id;
+      const updatedUser = await UserService.updateUser(userId, req.body);
+      if (!updatedUser) {
+        return res.status(404).json({ message: 'Пользователь не найден' });
+      }
+      res.json(updatedUser);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  },
+
+  async deleteUser(req, res) {
+    try {
+      const userId = req.params.id;
+      const deletedUser = await UserService.deleteUser(userId);
+      if (!deletedUser) {
+        return res.status(404).json({ message: 'Пользователь не найден' });
+      }
+      res.json({ message: 'Пользователь успешно удален' });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  },
+};
+
+export default UserController;
