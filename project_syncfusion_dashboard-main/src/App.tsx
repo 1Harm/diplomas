@@ -13,6 +13,7 @@ import {
   Pyramid,
   Customers,
   DataInput,
+  DropFile,
   Kanban,
   Line,
   Area,
@@ -21,7 +22,7 @@ import {
   Financial,
   ColorMapping,
   Editor,
-} from "./pages";
+} from "./pages/index.tsx";
 import "./App.css";
 
 import { useStateContext } from "./contexts/ContextProvider";
@@ -99,6 +100,7 @@ const App = () => {
                 <Route path="/editor" element={<Editor />} />
                 <Route path="/calendar" element={<Calendar />} />
                 <Route path="/data-input" element={<DataInput />} />
+                <Route path="/drop-file" element={<DropFile />} />
 
                 {/* charts  */}
                 <Route path="/line" element={<Line />} />
