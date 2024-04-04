@@ -557,6 +557,10 @@ export const links = [
         name: "data-input",
         icon: <BsClipboardData />,
       },
+      {
+        name: "drop-file",
+        icon: <BsClipboardData />,
+      },
     ],
   },
   {
