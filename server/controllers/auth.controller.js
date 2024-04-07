@@ -1,9 +1,15 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import UserService from '../application/user.service.js';
+import { validationResult } from 'express-validator';
 
 const AuthController = {
   async signUp(req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
     try {
       const { username, email, password } = req.body;
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -21,6 +27,11 @@ const AuthController = {
   },
 
   async signIn(req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
     try {
       const { email, password } = req.body;
       const user = await UserService.getUserByEmail(email);
