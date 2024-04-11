@@ -6,6 +6,7 @@ import connectDB from './mongodb/connect.js';
 import userRoutes from './routes/user.routes.js';
 import productRoutes from './routes/product.routes.js';
 import authRoutes from './routes/auth.routes.js';
+import companyRoutes from './routes/company.routes.js';
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ app.get('/', (req, res) => {
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/companies', companyRoutes);
 
 const startServer = async () => {
   try {
