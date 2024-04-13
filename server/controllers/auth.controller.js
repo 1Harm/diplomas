@@ -43,7 +43,7 @@ const AuthController = {
           { expiresIn: '24h' }
         );
 
-        res.json({ token });
+        res.json({ token, userId: user._id });
       } else {
         res.status(400).json({ message: 'Invalid email or password' });
       }
