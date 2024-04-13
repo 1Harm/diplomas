@@ -1,6 +1,6 @@
 import express from 'express';
-import CompanyController from '../controllers/company.controller';
-import authenticate from '../middleware/authenticate';
+import CompanyController from '../controllers/company.controller.js';
+import authenticate from '../middleware/authenticate.js';
 
 const router = express.Router();
 
