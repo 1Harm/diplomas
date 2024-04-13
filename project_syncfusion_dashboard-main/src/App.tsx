@@ -25,7 +25,12 @@ import {
 } from "./pages/index.tsx";
 import "./App.css";
 
-import { useStateContext } from "./contexts/ContextProvider";
+import { useStateContext } from "./contexts/ContextProvider.js";
+import SignUp from "./pages/SignUp.jsx";
+import SignIn from "./pages/SignIn.jsx";
+import CreateCompany from "./pages/Company/CreateCompany.jsx";
+import CompanyList from "./pages/Company/CompanyList.jsx";
+import CompanyDetails from "./pages/Company/CompanyDetails.jsx";
 
 const App = () => {
   const {
@@ -52,7 +57,7 @@ const App = () => {
       <BrowserRouter>
         <div className="flex relative dark:bg-main-dark-bg">
           <div className="fixed right-4 bottom-4" style={{ zIndex: "1000" }}>
-            <TooltipComponent content="Settings" position="Top">
+            <TooltipComponent content="Settings">
               <button
                 type="button"
                 onClick={() => setThemeSettings(true)}
@@ -111,6 +116,15 @@ const App = () => {
                 <Route path="/color-mapping" element={<ColorMapping />} />
                 <Route path="/pyramid" element={<Pyramid />} />
                 <Route path="/stacked" element={<Stacked />} />
+
+                {/* auth  */}
+                <Route path="/signup" element={<SignUp />} />
+                <Route path="/signin" element={<SignIn />} />
+
+                {/* companies  */}
+                <Route path="/create-company" element={<CreateCompany />} />
+                <Route path="/companies" element={<CompanyList />} />
+                <Route path="/companies/:companyId" element={<CompanyDetails />} />
               </Routes>
             </div>
             <Footer />
