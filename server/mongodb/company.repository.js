@@ -9,6 +9,10 @@ const CompanyRepository = {
         return Company.findById(companyId);
     },
 
+    async findCompaniesByUserId(userId) {
+        return Company.find({ ownerId: userId });
+    },
+
     async updateCompany(companyId, companyData) {
         return Company.findByIdAndUpdate(companyId, companyData, { new: true });
     },

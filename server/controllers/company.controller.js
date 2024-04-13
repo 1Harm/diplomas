@@ -1,10 +1,20 @@
-import CompanyService from "../application/company.service";
+import CompanyService from "../application/company.service.js";
 
 const CompanyController = {
     async createCompany(req, res) {
         try {
             const newCompany = await CompanyService.createCompany(req.body);
             res.status(201).json(newCompany);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    },
+
+    async getCompanyByUserId(req, res) {
+        try {
+            const userId = req.user.userId;
+            const companies = await CompanyService.getCompaniesByUserId(userId);
+            res.json(companies);
         } catch (error) {
             res.status(500).json({ message: error.message });
         }
