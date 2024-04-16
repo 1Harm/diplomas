@@ -9,6 +9,10 @@ const UserService = {
     return UserRepository.findUserById(userId);
   },
 
+  async getUserByEmail(email) {
+    return UserRepository.findUserByEmail(email);
+  },
+
   async updateUser(userId, userData) {
     return UserRepository.updateUser(userId, userData);
   },

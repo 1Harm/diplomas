@@ -1,14 +1,11 @@
 import React, { useEffect } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { FiSettings, FiMessageCircle } from "react-icons/fi";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { FiSettings } from "react-icons/fi";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
-import { FaTelegram } from "react-icons/fa";
 
-import { Navbar, Footer, Sidebar, ThemeSettings, ChatBot } from "./components";
+import { Navbar, Footer, Sidebar, ThemeSettings } from "./components";
 import {
-  Landing,
   Ecommerce,
-  ChatAI,
   Orders,
   Calendar,
   Employees,
@@ -24,7 +21,7 @@ import {
   Pie,
   Financial,
   ColorMapping,
-  SignIn,
+  Editor,
 } from "./pages/index.tsx";
 import "./App.css";
 
@@ -39,9 +36,6 @@ const App = () => {
     currentColor,
     themeSettings,
     setThemeSettings,
-    ChatModalOpen,
-    setChatModalOpen,
-    isLoggedIn, // Добавлено состояние авторизации
   } = useStateContext();
 
   useEffect(() => {
@@ -56,46 +50,8 @@ const App = () => {
   return (
     <div className={currentMode === "Dark" ? "dark" : ""}>
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/signin" element={<SignIn />} />
-        </Routes>
-
         <div className="flex relative dark:bg-main-dark-bg">
           <div className="fixed right-4 bottom-4" style={{ zIndex: "1000" }}>
-            <TooltipComponent content="ChatBot" position="Top">
-              <button
-                type="button"
-                onClick={() => setChatModalOpen(true)}
-                style={{
-                  background: currentColor,
-                  borderRadius: "50%",
-                  marginBottom: "10px",
-                }}
-                className="text-3xl text-white p-3 hover:drop-shadow-xl hover:bg-light-gray"
-              >
-                <FiMessageCircle />
-              </button>
-            </TooltipComponent>{" "}
-            <a
-              href="https://t.me/eanalitics_bot"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <TooltipComponent content="TelegramBot" position="Top">
-                <button
-                  type="button"
-                  style={{
-                    background: currentColor,
-                    borderRadius: "50%",
-                    marginBottom: "10px",
-                  }}
-                  className="text-3xl text-white p-3 hover:drop-shadow-xl hover:bg-light-gray"
-                >
-                  <FaTelegram />
-                </button>
-              </TooltipComponent>{" "}
-            </a>
             <TooltipComponent content="Settings" position="Top">
               <button
                 type="button"
@@ -128,16 +84,25 @@ const App = () => {
             </div>
             <div>
               {themeSettings && <ThemeSettings />}
-              {ChatModalOpen && <ChatBot />}
+
               <Routes>
+                {/* dashboard  */}
+                <Route path="/" element={<Ecommerce />} />
                 <Route path="/ecommerce" element={<Ecommerce />} />
+
+                {/* pages  */}
                 <Route path="/orders" element={<Orders />} />
                 <Route path="/employees" element={<Employees />} />
+                <Route path="/customers" element={<Customers />} />
+
+                {/* apps  */}
                 <Route path="/kanban" element={<Kanban />} />
-                <Route path="/chatai" element={<ChatAI />} />
+                <Route path="/editor" element={<Editor />} />
                 <Route path="/calendar" element={<Calendar />} />
                 <Route path="/data-input" element={<DataInput />} />
                 <Route path="/drop-file" element={<DropFile />} />
+
+                {/* charts  */}
                 <Route path="/line" element={<Line />} />
                 <Route path="/area" element={<Area />} />
                 <Route path="/bar" element={<Bar />} />
