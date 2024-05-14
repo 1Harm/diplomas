@@ -4,7 +4,6 @@ const CreateCompany = () => {
     const [companyData, setCompanyData] = useState({
         name: '',
         industry: '',
-        // Другие поля компании
     });
 
     const handleChange = (e) => {
@@ -23,7 +22,6 @@ const CreateCompany = () => {
                 ...companyData,
                 ownerId: userId
               };
-            // Отправка данных о создаваемой компании на сервер
             const response = await fetch('http://localhost:8080/api/companies/create', {
                 method: 'POST',
                 headers: {
@@ -34,7 +32,6 @@ const CreateCompany = () => {
             });
             if (response.ok) {
                 console.log('Company created successfully!');
-                // Можно выполнить перенаправление на другую страницу
             } else {
                 console.log('Failed to create company');
             }
@@ -55,12 +52,6 @@ const CreateCompany = () => {
                     <label>Industry:</label>
                     <input type="text" name="industry" value={companyData.industry} onChange={handleChange} />
                 </div>
-                {/* Добавьте другие поля компании, например: */}
-                {/* <div>
-          <label>Employees:</label>
-          <input type="number" name="employees" value={companyData.employees} onChange={handleChange} />
-        </div> */}
-                {/* Другие поля компании */}
                 <button type="submit">Create</button>
             </form>
         </div>
