@@ -22,7 +22,7 @@ const SignUp = () => {
         body: JSON.stringify(userData)
       });
       const data = await response.json();
-      console.log(data); // Вывести ответ от сервера на консоль
+      console.log(data);
       if (data.success) {
         console.log('Registration successful', data);
       } else {

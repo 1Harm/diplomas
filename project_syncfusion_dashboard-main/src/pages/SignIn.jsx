@@ -25,15 +25,12 @@ const SignIn = () => {
       });
       const data = await response.json();
       console.log('Login failed', data);
-      console.log('EBLAN', data.success);
       if (response.ok) {
         console.log('Login successful', data);
         localStorage.setItem('token', data.token);
         localStorage.setItem('userId', data.userId);
         navigate('/create-company');
-        // Сохранение токена и переадресация пользователя
       } else {
-        // console.log('Login failed', data.message);
         console.log('Login failed', response.body);
         console.log('Login failed', loginData);
         console.log('Login failed', data);
