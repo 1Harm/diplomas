@@ -4,7 +4,13 @@ import CompanyService from "../application/company.service.js";
 const CompanyController = {
     async createCompany(req, res) {
         try {
-            const newCompany = await CompanyService.createCompany(req.body);
+            const userId = req.user.userId;
+            const existingCompany = await CompanyService.getCompaniesByUserId(userId);
+            if (existingCompany.length > 0) {
+                return res.status(400).json({ message: 'You can create only one company' });
+            }
+
+            const newCompany = await CompanyService.createCompany({ ...req.body, ownerId: userId });
             res.status(201).json(newCompany);
         } catch (error) {
             res.status(500).json({ message: error.message });
@@ -110,7 +116,7 @@ const CompanyController = {
             res.status(500).json({ message: error.message });
         }
     },
-
+    
     async getCompaniesByUserId(req, res) {
         try {
             const userId = req.params.userId;
