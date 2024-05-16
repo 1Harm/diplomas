@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 const CreateCompany = () => {
     const [companyData, setCompanyData] = useState({
         name: '',
-        industry: '',
     });
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleChange = (e) => {
         setCompanyData({ ...companyData, [e.target.name]: e.target.value });
@@ -34,6 +34,8 @@ const CreateCompany = () => {
                 console.log('Company created successfully!');
             } else {
                 console.log('Failed to create company');
+                const errorResponse = await response.json();
+                setErrorMessage(errorResponse.message);
             }
         } catch (error) {
             console.error('Error during company creation:', error);
@@ -43,14 +45,11 @@ const CreateCompany = () => {
     return (
         <div>
             <h2>Create Company</h2>
+            {errorMessage && <p>{errorMessage}</p>}
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Name:</label>
                     <input type="text" name="name" value={companyData.name} onChange={handleChange} required />
-                </div>
-                <div>
-                    <label>Industry:</label>
-                    <input type="text" name="industry" value={companyData.industry} onChange={handleChange} />
                 </div>
                 <button type="submit">Create</button>
             </form>
