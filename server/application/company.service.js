@@ -9,6 +9,11 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const CompanyService = {
     async createCompany(companyData) {
+        const existingCompany = await this.getCompaniesByUserId(companyData.ownerId);
+        if (existingCompany.length > 0) {
+            throw new Error('User can create only one company');
+        }
+
         return CompanyRepository.createCompany(companyData);
     },
 
@@ -133,7 +138,7 @@ const CompanyService = {
             console.error("Error in getRevenueByMonthAndYear:", error.message);
             throw new Error(error.message);
         }
-    },
+    },   
 
     async getCompaniesByUserId(userId) {
         return CompanyRepository.findCompaniesByUserId(userId);
