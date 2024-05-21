@@ -18,15 +18,22 @@ const storage = multer.diskStorage({
 // const upload = multer({ dest: 'application/uploads/' });
 const upload = multer({ storage: storage });
 
+// CRUD
 router.post('/create', authenticate, CompanyController.createCompany);
 router.get('/', authenticate, CompanyController.getCompanyByUserId);
 router.get('/:id', authenticate, CompanyController.geCompany);
 router.put('/:id', authenticate, CompanyController.updateCompany);
-router.put('/:id/upload', authenticate, upload.single('file'), CompanyController.uploadCompanyData);
 router.delete('/:id', authenticate, CompanyController.deleteCompany);
-router.get('/:id/data', authenticate, CompanyController.getCompanyData);
-router.get('/:id/revenue', authenticate, CompanyController.getRevenueByMonth);
-router.get('/:id/revenue-by-month-and-year', authenticate, CompanyController.getRevenueByMonthAndYear);
+
+// Upload file
+router.put('/:id/upload', authenticate, upload.single('file'), CompanyController.uploadCompanyData);
+
+// By user
 router.get('/user/:userId', authenticate, CompanyController.getCompaniesByUserId);
+
+// Revenue
+router.get('/:id/revenue-by-month-and-year', authenticate, CompanyController.getRevenueByMonthAndYear);
+router.get('/:id/revenue-by-category', authenticate, CompanyController.getRevenueByCategory);
+router.get('/:id/revenue-by-city', authenticate, CompanyController.getRevenueByCity);
 
 export default router;
