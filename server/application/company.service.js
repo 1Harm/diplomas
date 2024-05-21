@@ -33,7 +33,7 @@ const CompanyService = {
         return CompanyRepository.deleteCompany(companyId);
     },
 
-    async uploadCompanyData(companyId, newData) {
+    async uploadCompanyData(companyId, newData, filePath) {
         const company = await CompanyRepository.findCompanyById(companyId);
         if (!company) throw new Error("Company not found");
 
@@ -93,7 +93,7 @@ const CompanyService = {
         const data = {};
         for (const columnName in csvRow) {
             let value = csvRow[columnName];
-    
+
             if (!isNaN(value)) {
                 if (value.includes(',')) {
                     value = parseFloat(value.replace(',', '.'));
@@ -106,7 +106,7 @@ const CompanyService = {
                     value = new Date(date);
                 }
             }
-    
+
             data[columnName] = value;
         }
         return data;
@@ -116,10 +116,10 @@ const CompanyService = {
         try {
             const company = await CompanyRepository.findCompanyById(companyId);
             if (!company) throw new Error("Company not found");
-    
+
             const revenueData = company.data['Total'];
             const revenueByMonthAndYear = {};
-    
+
             revenueData.forEach((total, index) => {
                 const date = new Date(company.data['Date'][index]);
                 const year = date.getFullYear();
@@ -132,36 +132,16 @@ const CompanyService = {
                 }
                 revenueByMonthAndYear[year][month] += total;
             });
-    
+
             return revenueByMonthAndYear;
         } catch (error) {
             console.error("Error in getRevenueByMonthAndYear:", error.message);
             throw new Error(error.message);
         }
-    },   
+    },
 
     async getCompaniesByUserId(userId) {
         return CompanyRepository.findCompaniesByUserId(userId);
-    },
-
-    async calculateMarketingROI(companyId) {
-        const company = await this.getCompanyById(companyId);
-        if (!company) throw new Error("Company not found");
-
-        const { marketingInvestment, revenue } = company;
-        if (marketingInvestment === 0) return 0;
-        const roi = (revenue - marketingInvestment) / marketingInvestment * 100;
-        return roi.toFixed(2);
-    },
-
-    async inventoryTurnoverRatio(companyId) {
-        const company = await this.getCompanyById(companyId);
-        if (!company) throw new Error("Company not found");
-
-        const { costOfGoodsSold, averageInventory } = company;
-        if (averageInventory === 0) return 0;
-        const turnover = costOfGoodsSold / averageInventory;
-        return turnover.toFixed(2);
     },
 
     async checkUserAccessToCompany(userId, companyId) {
@@ -169,6 +149,60 @@ const CompanyService = {
         if (!company) return false;
 
         return company.owner === userId || company.employees.includes(userId);
+    },
+
+    async getRevenueByCategory(companyId, year) {
+        try {
+            const company = await CompanyRepository.findCompanyById(companyId);
+            if (!company) throw new Error("Company not found");
+    
+            const data = company.data;
+            if (!data['Category'] || !data['Total'] || !data['Date']) throw new Error("Required data missing");
+    
+            const revenueByCategory = data['Category'].reduce((acc, category, index) => {
+                const date = new Date(data['Date'][index]);
+                if (date.getFullYear() === parseInt(year)) {
+                    if (!acc[category]) acc[category] = 0;
+                    acc[category] += data['Total'][index];
+                }
+                return acc;
+            }, {});
+    
+            return Object.keys(revenueByCategory).map(category => ({
+                category,
+                total: revenueByCategory[category]
+            }));
+        } catch (error) {
+            console.error("Error in getRevenueByCategory:", error.message);
+            throw new Error(error.message);
+        }
+    },
+    
+    async getRevenueByCity(companyId, year) {
+        try {
+            const company = await CompanyRepository.findCompanyById(companyId);
+            if (!company) throw new Error("Company not found");
+    
+            const data = company.data;
+            if (!data['City'] || !data['Total'] || !data['Date']) throw new Error("Required data missing");
+    
+            const revenueByCity = data['City'].reduce((acc, city, index) => {
+                const date = new Date(data['Date'][index]);
+                if (date.getFullYear() === parseInt(year)) {
+                    if (!acc[city]) acc[city] = 0;
+                    acc[city] += data['Total'][index];
+                }
+                return acc;
+            }, {});
+    
+            return Object.keys(revenueByCity).map(city => ({
+                city,
+                total: revenueByCity[city]
+            }));
+        } catch (error) {
+            console.error("Error in getRevenueByCity:", error.message);
+            throw new Error(error.message);
+        }
     },
 };
 
