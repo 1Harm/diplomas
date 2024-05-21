@@ -39,6 +39,15 @@ const CompanyService = {
 
         company.data = newData;
         await company.save();
+
+        fs.unlink(filePath, (err) => {
+            if (err) {
+                console.error('Error deleting file:', err);
+            } else {
+                console.log('File deleted successfully');
+            }
+        });
+
         return company;
     },
 
