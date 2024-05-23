@@ -35,9 +35,6 @@ import CompanyDataGrid from "./pages/Company/CompanyDataGrid.jsx";
 import { ThemeProvider } from "@mui/material";
 import { useMemo } from "react";
 import { createTheme } from "@mui/material/styles";
-import RevenuePage from "./pages/Dashboard/DashboardPage.jsx";
-import CompanyChartPage from "./pages/Company/CompanyChartPage.jsx";
-import DashboardPage from "./pages/Dashboard/DashboardPage.jsx";
 import BarChart from "./components/Charts/BarChart.jsx";
 import PieChart from "./components/Charts/PieChart.jsx";
 import HistogramChart from "./components/Charts/HistogramChart.jsx";
@@ -98,9 +95,6 @@ const App = () => {
                   <Route path="/companies" element={<CompanyList />} />
                   <Route path="/companies/:companyId" element={<CompanyDataGrid />} />
                   <Route path="/companies/:companyId/upload" element={<CompanyCSV />} />
-                  <Route path="/companies/:companyId/revenue" element={<RevenuePage />} />
-                  <Route path="/companies/:companyId/dashboard" element={<DashboardPage />} />
-                  <Route path="/companies/:companyId/chart" element={<CompanyChartPage />} />
 
                   {/* graphs  */}
                   <Route path="/linechart" element={<LineChart />} />
