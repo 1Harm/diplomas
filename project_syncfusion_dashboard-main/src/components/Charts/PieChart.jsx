@@ -10,10 +10,12 @@ import {
 } from '@syncfusion/ej2-react-charts';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const PieChart = () => {
   const [revenueData, setRevenueData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
   const userId = localStorage.getItem('userId');
 
   useEffect(() => {
@@ -54,7 +56,11 @@ const PieChart = () => {
           setLoading(false);
         }
       } catch (error) {
-        console.error('Error fetching revenue data:', error);
+        if (error.response && error.response.status === 403) {
+          navigate('/forbidden');
+        } else {
+          console.error('Error fetching company data:', error);
+        }
       }
     };
 

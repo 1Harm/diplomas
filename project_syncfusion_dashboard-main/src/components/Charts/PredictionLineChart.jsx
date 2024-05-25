@@ -1,16 +1,17 @@
-import { 
-  ChartComponent, 
-  SeriesCollectionDirective, 
-  SeriesDirective, 
-  Inject, 
-  LineSeries, 
-  Category, 
-  Legend, 
-  Tooltip 
+import {
+  ChartComponent,
+  SeriesCollectionDirective,
+  SeriesDirective,
+  Inject,
+  LineSeries,
+  Category,
+  Legend,
+  Tooltip
 } from '@syncfusion/ej2-react-charts';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { linearRegression, linearRegressionLine } from 'simple-statistics';
+import { useNavigate } from 'react-router-dom';
 
 const LineChart = () => {
   const [revenueData, setRevenueData] = useState([]);
@@ -18,6 +19,7 @@ const LineChart = () => {
   const [loading, setLoading] = useState(true);
   const [companyName, setCompanyName] = useState('');
   const [showPrediction, setShowPrediction] = useState(false);
+  const navigate = useNavigate();
   const userId = localStorage.getItem('userId');
   const currentYear = new Date().getFullYear();
   const startYear = 2000;
@@ -51,7 +53,7 @@ const LineChart = () => {
 
         const revenueResponses = await Promise.all(promises);
         const revenueData = revenueResponses.map(response => response.data);
-        
+
         if (isMounted) {
           setCompanyName(response.data[0].name);
           const yearsRange = generateYearsRange(startYear, currentYear);
@@ -72,7 +74,11 @@ const LineChart = () => {
           setLoading(false);
         }
       } catch (error) {
-        console.error('Error fetching revenue data:', error);
+        if (error.response && error.response.status === 403) {
+          navigate('/forbidden');
+        } else {
+          console.error('Error fetching company data:', error);
+        }
       }
     };
 

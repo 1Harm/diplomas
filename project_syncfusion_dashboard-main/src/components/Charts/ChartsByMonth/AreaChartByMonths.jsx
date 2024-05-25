@@ -10,11 +10,13 @@ import {
 } from '@syncfusion/ej2-react-charts';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const AreaChart = () => {
   const [revenueData, setRevenueData] = useState([]);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear().toString());
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
   const userId = localStorage.getItem('userId');
   const currentYear = new Date().getFullYear();
   const startYear = 2000;
@@ -60,7 +62,11 @@ const AreaChart = () => {
           setLoading(false);
         }
       } catch (error) {
-        console.error('Error fetching revenue data:', error);
+        if (error.response && error.response.status === 403) {
+          navigate('/forbidden');
+        } else {
+          console.error('Error fetching company data:', error);
+        }
       }
     };
 
