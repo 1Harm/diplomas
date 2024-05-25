@@ -116,8 +116,11 @@ const CompanyController = {
     async getCompaniesByUserId(req, res) {
         try {
             const userId = req.params.userId;
-            const companies = await CompanyService.getCompaniesByUserId(userId);
-            res.json(companies);
+            const company = await CompanyService.getCompaniesByUserId(userId);
+            if (!company) {
+                return res.status(404).json({ message: 'Company not found' });
+            }
+            res.json(company);
         } catch (error) {
             res.status(500).json({ message: error.message });
         }
