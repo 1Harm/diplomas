@@ -46,7 +46,11 @@ const CompanyDataGrid = () => {
                     console.error('Error fetching company data: Data is not in the expected format');
                 }
             } catch (error) {
-                console.error('Error fetching company data:', error);
+                if (error.response && error.response.status === 403) {
+                    navigate('/forbidden');
+                } else {
+                    console.error('Error fetching company data:', error);
+                }
             } finally {
                 setLoading(false);
             }
@@ -69,19 +73,19 @@ const CompanyDataGrid = () => {
     const handleLineChartByMonthsPageRedirect = () => {
         navigate(`/linechart-by-months`);
     }
-    
+
     const handleBarChartByMonthsPageRedirect = () => {
         navigate(`/barchart-by-months`);
     }
-    
+
     const handlePieChartByMonthsPageRedirect = () => {
         navigate(`/piechart-by-months`);
     }
-    
+
     const handleHistogramChartByMonthsPageRedirect = () => {
         navigate(`/histogramchart-by-months`);
     }
-    
+
     const handleAreaChartByMonthsPageRedirect = () => {
         navigate(`/areachart-by-months`);
     }

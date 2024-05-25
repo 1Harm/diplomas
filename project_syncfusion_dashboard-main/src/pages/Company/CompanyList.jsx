@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const CompanyList = () => {
   const [companies, setCompanies] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCompanies = async () => {
@@ -14,7 +16,10 @@ const CompanyList = () => {
             'Authorization': `Bearer ${token}`
           }
         });
-        if (response.ok) {
+
+        if (response.status === 403) {
+          navigate('/forbidden');
+        } else if (response.ok) {
           const data = await response.json();
           setCompanies(data);
         } else {
