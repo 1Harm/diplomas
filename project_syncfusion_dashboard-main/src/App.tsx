@@ -48,6 +48,8 @@ import LineChart from "./components/Charts/LineChart.jsx";
 import BarChartByFields from "./components/Charts/ChartsByMonth/ByFields/BarChartByFields.jsx";
 import PieChartByFields from "./components/Charts/ChartsByMonth/ByFields/PieChartByFields.jsx";
 import PredictionLineChart from "./components/Charts/PredictionLineChart.jsx";
+import Forbidden from "./pages/HttpStatuses/Forbidden.jsx";
+import ProtectedRoute from "./components/Exceptions/ProtectedRoute.jsx";
 
 const App = () => {
   const {
@@ -59,7 +61,7 @@ const App = () => {
     themeSettings,
     setThemeSettings,
   } = useStateContext();
-  
+
   useEffect(() => {
     const currentThemeColor = localStorage.getItem("colorMode");
     const currentThemeMode = localStorage.getItem("themeMode");
@@ -68,7 +70,7 @@ const App = () => {
       setCurrentMode(currentThemeMode);
     }
   }, []);
-  
+
   const theme = useMemo(() => createTheme(themeSettings), []);
   return (
     <div className={currentMode === "Dark" ? "dark" : ""}>
@@ -89,31 +91,31 @@ const App = () => {
                   {/* auth  */}
                   <Route path="/signup" element={<SignUp />} />
                   <Route path="/signin" element={<SignIn />} />
+                  <Route path="/forbidden" element={<Forbidden />} />
 
                   {/* companies  */}
-                  <Route path="/create-company" element={<CreateCompany />} />
-                  <Route path="/companies" element={<CompanyList />} />
-                  <Route path="/companies/:companyId" element={<CompanyDataGrid />} />
-                  <Route path="/companies/:companyId/upload" element={<CompanyCSV />} />
+                  <Route path="/create-company" element={<ProtectedRoute><CreateCompany /></ProtectedRoute>} />
+                  <Route path="/companies" element={<ProtectedRoute><CompanyList /></ProtectedRoute>} />
+                  <Route path="/companies/:companyId" element={<ProtectedRoute><CompanyDataGrid /></ProtectedRoute>} />
+                  <Route path="/companies/:companyId/upload" element={<ProtectedRoute><CompanyCSV /></ProtectedRoute>} />
 
-                  {/* graphs  */}
-                  <Route path="/linechart" element={<LineChart />} />
-                  <Route path="/barchart" element={<BarChart />} />
-                  <Route path="/piechart" element={<PieChart />} />
-                  <Route path="/histogramchart" element={<HistogramChart />} />
-                  <Route path="/areachart" element={<AreaChart />} />
-                  
-                  
-                  <Route path="/linechart-by-months" element={<LineChartByMonth />} />
-                  <Route path="/barchart-by-months" element={<BarChartByMonths />} />
-                  <Route path="/piechart-by-months" element={<PieChartByMonths />} />
-                  <Route path="/histogramchart-by-months" element={<HistogramChartByMonths />} />
-                  <Route path="/areachart-by-months" element={<AreaChartByMonths />} />
-                  
-                  <Route path="/testbarchart" element={<BarChartByFields />} />
-                  <Route path="/testpiechart" element={<PieChartByFields />} />
-                  
-                  <Route path="/prediction" element={<PredictionLineChart />} />
+                  {/* graphs */}
+                  <Route path="/linechart" element={<ProtectedRoute><LineChart /></ProtectedRoute>} />
+                  <Route path="/barchart" element={<ProtectedRoute><BarChart /></ProtectedRoute>} />
+                  <Route path="/piechart" element={<ProtectedRoute><PieChart /></ProtectedRoute>} />
+                  <Route path="/histogramchart" element={<ProtectedRoute><HistogramChart /></ProtectedRoute>} />
+                  <Route path="/areachart" element={<ProtectedRoute><AreaChart /></ProtectedRoute>} />
+
+                  <Route path="/linechart-by-months" element={<ProtectedRoute><LineChartByMonth /></ProtectedRoute>} />
+                  <Route path="/barchart-by-months" element={<ProtectedRoute><BarChartByMonths /></ProtectedRoute>} />
+                  <Route path="/piechart-by-months" element={<ProtectedRoute><PieChartByMonths /></ProtectedRoute>} />
+                  <Route path="/histogramchart-by-months" element={<ProtectedRoute><HistogramChartByMonths /></ProtectedRoute>} />
+                  <Route path="/areachart-by-months" element={<ProtectedRoute><AreaChartByMonths /></ProtectedRoute>} />
+
+                  <Route path="/testbarchart" element={<ProtectedRoute><BarChartByFields /></ProtectedRoute>} />
+                  <Route path="/testpiechart" element={<ProtectedRoute><PieChartByFields /></ProtectedRoute>} />
+
+                  <Route path="/prediction" element={<ProtectedRoute><PredictionLineChart /></ProtectedRoute>} />
                 </Routes>
               </div>
               <Footer />
