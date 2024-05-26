@@ -1,10 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const CreateCompany = () => {
     const [companyData, setCompanyData] = useState({
         name: '',
     });
     const [errorMessage, setErrorMessage] = useState('');
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            navigate('/forbidden');
+        } else {
+            fetch('http://localhost:8080/api/auth/check-token', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then(response => {
+                if (response.status !== 200) {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('userId');
+                    navigate('/forbidden');
+                }
+            }).catch(() => {
+                localStorage.removeItem('token');
+                localStorage.removeItem('userId');
+                navigate('/forbidden');
+            });
+        }
+    }, [navigate]);
 
     const handleChange = (e) => {
         setCompanyData({ ...companyData, [e.target.name]: e.target.value });
@@ -21,7 +46,7 @@ const CreateCompany = () => {
             const companyDataWithOwnerId = {
                 ...companyData,
                 ownerId: userId
-              };
+            };
             const response = await fetch('http://localhost:8080/api/companies/create', {
                 method: 'POST',
                 headers: {
@@ -30,15 +55,18 @@ const CreateCompany = () => {
                 },
                 body: JSON.stringify(companyDataWithOwnerId)
             });
-            if (response.ok) {
+
+            if (response.status === 403) {
+                navigate('/forbidden');
+            } else if (response.ok) {
                 console.log('Company created successfully!');
             } else {
-                console.log('Failed to create company');
                 const errorResponse = await response.json();
                 setErrorMessage(errorResponse.message);
             }
         } catch (error) {
-            console.error('Error during company creation:', error);
+            console.error('Error creating company:', error);
+            setErrorMessage('An error occurred. Please try again.');
         }
     };
 

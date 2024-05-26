@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const UploadCSV = ({ companyId }) => {
     const [file, setFile] = useState(null);
+    const navigate = useNavigate();
 
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);
@@ -21,8 +23,12 @@ const UploadCSV = ({ companyId }) => {
             });
             alert('File successfully uploaded.');
         } catch (error) {
-            console.error('Error during uploading file:', error);
-            alert('Error during uploading file. Please, try again.');
+            if (error.response && error.response.status === 403) {
+                navigate('/forbidden');
+            } else {
+                console.error('Error during uploading file:', error);
+                alert('Error during uploading file. Please, try again.');
+            }
         }
     };
 
