@@ -50,6 +50,7 @@ import PieChartByFields from "./components/Charts/ChartsByMonth/ByFields/PieChar
 import PredictionLineChart from "./components/Charts/PredictionLineChart.jsx";
 import Forbidden from "./pages/HttpStatuses/Forbidden.jsx";
 import ProtectedRoute from "./components/Exceptions/ProtectedRoute.jsx";
+import NotFound from "./pages/HttpStatuses/NotFound.jsx";
 
 const App = () => {
   const {
@@ -116,6 +117,9 @@ const App = () => {
                   <Route path="/testpiechart" element={<ProtectedRoute><PieChartByFields /></ProtectedRoute>} />
 
                   <Route path="/prediction" element={<ProtectedRoute><PredictionLineChart /></ProtectedRoute>} />
+
+                  {/* NotFound route */}
+                  <Route path="*" element={<NotFound />} />
                 </Routes>
               </div>
               <Footer />
