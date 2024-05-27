@@ -42,6 +42,10 @@ const SignUp = () => {
       alert('Error during registration', error);
     }
   };
+
+  const handleLogin = () => {
+    navigate('/signin');
+  }
   
 
   return (
@@ -53,6 +57,15 @@ const SignUp = () => {
         <input type="password" name="password" placeholder="Password" value={userData.password} onChange={handleChange} required />
         <button type="submit">Register</button>
       </form>
+      <div>
+        <p>Already have account?</p>
+        <button
+          className="px-4 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 focus:outline-none"
+          onClick={handleLogin}
+        >
+          Login
+        </button>
+      </div>
     </div>
   );
 };
