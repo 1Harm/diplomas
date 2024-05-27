@@ -139,9 +139,23 @@ const CompanyDataGrid = () => {
                     ) : companyData.length === 0 ? (
                         <div className="flex flex-col items-center justify-center h-full">
                             <p className="text-xl font-semibold">Company data not loaded</p>
-                            <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 focus:outline-none" onClick={handleUploadPageRedirect}>
-                                Upload data
-                            </button>
+                            <div className="flex justify-between items-center mb-4">
+                                <button className="px-4 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 focus:outline-none" onClick={handleUploadPageRedirect}>
+                                    Upload data
+                                </button>
+                                <button
+                                    className="px-4 py-2 bg-green-500 text-white rounded-md shadow-md hover:bg-green-600 focus:outline-none"
+                                    onClick={handleUpdateCompanyRedirect}
+                                >
+                                    Update Company
+                                </button>
+                                <button
+                                    className="px-4 py-2 bg-red-500 text-white rounded-md shadow-md hover:bg-red-600 focus:outline-none"
+                                    onClick={handleDeleteCompanyRedirect}
+                                >
+                                    Delete Company
+                                </button>
+                            </div>
                         </div>
                     ) : (
                         <div>
