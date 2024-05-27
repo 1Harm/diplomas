@@ -31,7 +31,7 @@ const AuthController = {
         { expiresIn: '24h' }
       );
 
-      res.status(201).json(user);
+      res.status(201).json({ token, userId: user._id });
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
