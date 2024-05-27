@@ -92,6 +92,7 @@ const CompanyDataGrid = () => {
                     }
                 });
                 navigate(`/company`);
+                window.location.reload();
             } catch (error) {
                 console.error('Error deleting company:', error);
             }
