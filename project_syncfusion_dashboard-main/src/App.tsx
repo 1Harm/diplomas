@@ -51,6 +51,7 @@ import PredictionLineChart from "./components/Charts/PredictionLineChart.jsx";
 import Forbidden from "./pages/HttpStatuses/Forbidden.jsx";
 import ProtectedRoute from "./components/Exceptions/ProtectedRoute.jsx";
 import NotFound from "./pages/HttpStatuses/NotFound.jsx";
+import CompanyDataGridTest from "./pages/Company/CompanyMain.jsx";
 
 const App = () => {
   const {
@@ -97,7 +98,9 @@ const App = () => {
                   {/* companies  */}
                   <Route path="/create-company" element={<ProtectedRoute><CreateCompany /></ProtectedRoute>} />
                   <Route path="/companies" element={<ProtectedRoute><CompanyList /></ProtectedRoute>} />
-                  <Route path="/companies/:companyId" element={<ProtectedRoute><CompanyDataGrid /></ProtectedRoute>} />
+                  {/* <Route path="/companies/:companyId" element={<ProtectedRoute><CompanyDataGrid /></ProtectedRoute>} /> */}
+                  <Route path="/company" element={<ProtectedRoute><CompanyDataGrid /></ProtectedRoute>} />
+                  {/* <Route path="/company" element={<ProtectedRoute><CompanyDataGridTest /></ProtectedRoute>} /> */}
                   <Route path="/companies/:companyId/upload" element={<ProtectedRoute><CompanyCSV /></ProtectedRoute>} />
 
                   {/* graphs */}
