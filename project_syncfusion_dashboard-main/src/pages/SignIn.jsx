@@ -40,6 +40,10 @@ const SignIn = () => {
     }
   };
 
+  const handleRegister = () => {
+    navigate('/signup')
+  }
+
   return (
     <div>
       <h2>Sign In</h2>
@@ -48,6 +52,15 @@ const SignIn = () => {
         <input type="password" name="password" placeholder="Password" value={loginData.password} onChange={handleChange} required />
         <button type="submit">Login</button>
       </form>
+      <div>
+        <p>Don't have account?</p>
+        <button
+          className="px-4 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 focus:outline-none"
+          onClick={handleRegister}
+        >
+          Register
+        </button>
+      </div>
     </div>
   );
 };
