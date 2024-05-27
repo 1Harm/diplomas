@@ -1,24 +1,14 @@
 import React from "react";
-import Hero from "./components/hero.tsx"; // Assuming Hero is a React component
-import Features from "./components/features.tsx"; // Assuming Features is a React component
-import FeaturesBlocks from "./components/features-blocks.tsx"; // Assuming FeaturesBlocks is a React component
-import Testimonials from "./components/testimonials.tsx"; // Assuming Testimonials is a React component
-import Newsletter from "./components/newsletter.tsx";
-import Header from "./components/ui/header.tsx"; // Assuming Newsletter is a React component
-import Footer from "./components/ui/footer.tsx";
+import Hero from "./components/hero.tsx"; // Предполагается, что Hero - это React-компонент
+import Header from "./components/ui/header.tsx"; // Предполагается, что Header - это React-компонент
 
-const Home = () => {
+const Landing = () => {
   return (
     <div>
       <Header />
       <Hero />
-      <Features />
-      <FeaturesBlocks />
-      <Testimonials />
-      <Newsletter />
-      <Footer />
     </div>
   );
 };
 
-export default Home;
+export default Landing;

@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, useRef, Fragment } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import { Image } from "primereact/image";
+import { useState, useRef } from "react";
 
 interface ModalVideoProps {
+  thumb: string;
   thumbWidth: number;
   thumbHeight: number;
   thumbAlt: string;
@@ -27,7 +26,7 @@ export default function ModalVideo({
 
   return (
     <div>
-      {/* Video thumbnail */}
+      {/* Миниатюра видео */}
       <div>
         <div
           className="relative flex justify-center mb-8"
@@ -35,11 +34,13 @@ export default function ModalVideo({
           data-aos-delay="450"
         >
           <div className="flex flex-col justify-center">
-            <Image
+            <img
               src={thumb}
               width={thumbWidth}
               height={thumbHeight}
               alt={thumbAlt}
+              style={{ cursor: "pointer" }}
+              onClick={() => setModalOpen(true)}
             />
             <svg
               className="absolute inset-0 max-w-full mx-auto md:max-w-none h-auto"
@@ -72,19 +73,6 @@ export default function ModalVideo({
                   <stop stopColor="#EAEAEA" offset="48.57%" />
                   <stop stopColor="#DFDFDF" stopOpacity="0" offset="100%" />
                 </linearGradient>
-                <radialGradient
-                  cx="21.152%"
-                  cy="86.063%"
-                  fx="21.152%"
-                  fy="86.063%"
-                  r="79.941%"
-                  id="hero-ill-e"
-                >
-                  <stop stopColor="#4FD1C5" offset="0%" />
-                  <stop stopColor="#81E6D9" offset="25.871%" />
-                  <stop stopColor="#338CF5" offset="100%" />
-                </radialGradient>
-                <circle id="hero-ill-d" cx="384" cy="216" r="64" />
               </defs>
               <g fill="none" fillRule="evenodd">
                 <circle
@@ -122,59 +110,38 @@ export default function ModalVideo({
               <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zm0 2C5.373 24 0 18.627 0 12S5.373 0 12 0s12 5.373 12 12-5.373 12-12 12z" />
               <path d="M10 17l6-5-6-5z" />
             </svg>
-            <span className="ml-3">Watch the full video (2 min)</span>
+            <span className="ml-3">Instructions</span>
           </button>
         </div>
       </div>
-      {/* End: Video thumbnail */}
+      {/* Конец: Миниатюра видео */}
 
-      <Transition
-        show={modalOpen}
-        as={Fragment}
-        afterEnter={() => videoRef.current?.play()}
-      >
-        <Dialog initialFocus={videoRef} onClose={() => setModalOpen(false)}>
-          {/* Modal backdrop */}
-          <Transition.Child
-            className="fixed inset-0 z-[99999] bg-black bg-opacity-75 transition-opacity"
-            enter="transition ease-out duration-200"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="transition ease-out duration-100"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-            aria-hidden="true"
-          />
-          {/* End: Modal backdrop */}
-
-          {/* Modal dialog */}
-          <Transition.Child
+      {modalOpen && (
+        <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black bg-opacity-75 transition-opacity">
+          {/* Модальное окно */}
+          <div
             className="fixed inset-0 z-[99999] overflow-hidden flex items-center justify-center transform px-4 sm:px-6"
-            enter="transition ease-out duration-200"
-            enterFrom="opacity-0 scale-95"
-            enterTo="opacity-100 scale-100"
-            leave="ttransition ease-out duration-200"
-            leaveFrom="oopacity-100 scale-100"
-            leaveTo="opacity-0 scale-95"
+            onClick={() => setModalOpen(false)}
           >
             <div className="max-w-6xl mx-auto h-full flex items-center">
-              <Dialog.Panel className="w-full max-h-full aspect-video bg-black overflow-hidden">
+              <div className="w-full max-h-full aspect-video bg-black overflow-hidden">
                 <video
                   ref={videoRef}
                   width={videoWidth}
                   height={videoHeight}
                   loop
                   controls
+                  onClick={(e) => e.stopPropagation()}
                 >
                   <source src={video} type="video/mp4" />
-                  Your browser does not support the video tag.
+                  Ваш браузер не поддерживает тег видео.
                 </video>
-              </Dialog.Panel>
+              </div>
             </div>
-          </Transition.Child>
-          {/* End: Modal dialog */}
-        </Dialog>
-      </Transition>
+          </div>
+          {/* Конец: Модальное окно */}
+        </div>
+      )}
     </div>
   );
 }

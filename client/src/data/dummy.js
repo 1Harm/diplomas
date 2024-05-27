@@ -31,7 +31,7 @@ import { HiOutlineRefresh } from "react-icons/hi";
 import { TiTick } from "react-icons/ti";
 import { GiLouvrePyramid } from "react-icons/gi";
 import { GrLocation } from "react-icons/gr";
-import avatar from "./avatar.jpg";
+import avatar from "./avatar2.jpg";
 import avatar2 from "./avatar2.jpg";
 import avatar3 from "./avatar3.png";
 import avatar4 from "./avatar4.jpg";
@@ -421,82 +421,82 @@ export const links = [
     ],
   },
 
-  {
-    title: "Pages",
-    links: [
-      {
-        name: "orders",
-        icon: <AiOutlineShoppingCart />,
-      },
-      {
-        name: "employees",
-        icon: <IoMdContacts />,
-      },
-    ],
-  },
+  // {
+  //   title: "Pages",
+  //   links: [
+  //     {
+  //       name: "products",
+  //       icon: <AiOutlineShoppingCart />,
+  //     },
+  //     {
+  //       name: "employees",
+  //       icon: <IoMdContacts />,
+  //     },
+  //   ],
+  // },
   {
     title: "Apps",
     links: [
       {
-        name: "chatai",
+        name: "chatAi",
         icon: <AiOutlineWechat />,
       },
-      {
-        name: "calendar",
-        icon: <AiOutlineCalendar />,
-      },
-      {
-        name: "kanban",
-        icon: <BsKanban />,
-      },
+      // {
+      //   name: "calendar",
+      //   icon: <AiOutlineCalendar />,
+      // },
+      // {
+      //   name: "kanban",
+      //   icon: <BsKanban />,
+      // },
       {
         name: "data-input",
         icon: <BsClipboardData />,
       },
       {
-        name: "drop-file",
+        name: "AI-dashboards",
         icon: <BsClipboardData />,
       },
     ],
   },
-  {
-    title: "Charts",
-    links: [
-      {
-        name: "line",
-        icon: <AiOutlineStock />,
-      },
-      {
-        name: "area",
-        icon: <AiOutlineAreaChart />,
-      },
+  // {
+  //   title: "Charts",
+  //   links: [
+  //     {
+  //       name: "line",
+  //       icon: <AiOutlineStock />,
+  //     },
+  //     {
+  //       name: "area",
+  //       icon: <AiOutlineAreaChart />,
+  //     },
 
-      {
-        name: "bar",
-        icon: <AiOutlineBarChart />,
-      },
-      {
-        name: "pie",
-        icon: <FiPieChart />,
-      },
-      {
-        name: "financial",
-        icon: <RiStockLine />,
-      },
-      {
-        name: "color-mapping",
-        icon: <BsBarChart />,
-      },
-      {
-        name: "pyramid",
-        icon: <GiLouvrePyramid />,
-      },
-      {
-        name: "stacked",
-        icon: <AiOutlineBarChart />,
-      },
-    ],
-  },
+  //     {
+  //       name: "bar",
+  //       icon: <AiOutlineBarChart />,
+  //     },
+  //     {
+  //       name: "pie",
+  //       icon: <FiPieChart />,
+  //     },
+  //     {
+  //       name: "financial",
+  //       icon: <RiStockLine />,
+  //     },
+  //     {
+  //       name: "color-mapping",
+  //       icon: <BsBarChart />,
+  //     },
+  //     {
+  //       name: "pyramid",
+  //       icon: <GiLouvrePyramid />,
+  //     },
+  //     {
+  //       name: "stacked",
+  //       icon: <AiOutlineBarChart />,
+  //     },
+  //   ],
+  // },
 ];
 
 export const cartData = [

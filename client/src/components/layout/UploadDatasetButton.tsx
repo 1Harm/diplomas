@@ -1,8 +1,9 @@
 import React from "react";
-import { Button } from "./Button";
+import { Buttons } from "./Button";
 import styles from "../../styles/Components.module.scss";
 import papa from "papaparse";
 import { parseData, stringifyData } from "../../utils/parseData.ts";
+import { FiTrash, FiUpload } from "react-icons/fi";
 
 interface UploadDatasetButtonProps {
   onUpload: (dataset: string) => void;
@@ -36,9 +37,9 @@ export function UploadDatasetButton(props: UploadDatasetButtonProps) {
 
   return (
     <>
-      <Button className={styles.uploadButton} onClick={handleUploadFileClick}>
-        Upload Data
-      </Button>
+      <Buttons className={styles.uploadButton} onClick={handleUploadFileClick}>
+        Upload Data&nbsp; <FiUpload />
+      </Buttons>
       <input
         ref={inputFileRef}
         hidden

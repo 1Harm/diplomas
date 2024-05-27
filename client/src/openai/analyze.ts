@@ -1,4 +1,4 @@
-import { IDashboard, IDataset } from "../types.tsx";
+import { IDashboard, IDataset } from "../types";
 import { stringifyData } from "../utils/parseData.ts";
 import { getPrompt, queryCompletionsChat } from "./completions.ts";
 import { getPromptModel } from "../utils/models.ts";

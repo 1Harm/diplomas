@@ -1,11 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const CreateCompany = () => {
     const [companyData, setCompanyData] = useState({
         name: '',
-        industry: '',
-        // Другие поля компании
     });
+    const [errorMessage, setErrorMessage] = useState('');
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            navigate('/forbidden');
+        } else {
+            fetch('http://localhost:8080/api/auth/check-token', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then(response => {
+                if (response.status !== 200) {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('userId');
+                    navigate('/forbidden');
+                }
+            }).catch(() => {
+                localStorage.removeItem('token');
+                localStorage.removeItem('userId');
+                navigate('/forbidden');
+            });
+        }
+    }, [navigate]);
 
     const handleChange = (e) => {
         setCompanyData({ ...companyData, [e.target.name]: e.target.value });
@@ -22,8 +46,7 @@ const CreateCompany = () => {
             const companyDataWithOwnerId = {
                 ...companyData,
                 ownerId: userId
-              };
-            // Отправка данных о создаваемой компании на сервер
+            };
             const response = await fetch('http://localhost:8080/api/companies/create', {
                 method: 'POST',
                 headers: {
@@ -32,35 +55,31 @@ const CreateCompany = () => {
                 },
                 body: JSON.stringify(companyDataWithOwnerId)
             });
-            if (response.ok) {
+
+            if (response.status === 403) {
+                navigate('/forbidden');
+            } else if (response.ok) {
                 console.log('Company created successfully!');
-                // Можно выполнить перенаправление на другую страницу
+                navigate('/company');
             } else {
-                console.log('Failed to create company');
+                const errorResponse = await response.json();
+                setErrorMessage(errorResponse.message);
             }
         } catch (error) {
-            console.error('Error during company creation:', error);
+            console.error('Error creating company:', error);
+            setErrorMessage('An error occurred. Please try again.');
         }
     };
 
     return (
         <div>
             <h2>Create Company</h2>
+            {errorMessage && <p>{errorMessage}</p>}
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Name:</label>
                     <input type="text" name="name" value={companyData.name} onChange={handleChange} required />
                 </div>
-                <div>
-                    <label>Industry:</label>
-                    <input type="text" name="industry" value={companyData.industry} onChange={handleChange} />
-                </div>
-                {/* Добавьте другие поля компании, например: */}
-                {/* <div>
-          <label>Employees:</label>
-          <input type="number" name="employees" value={companyData.employees} onChange={handleChange} />
-        </div> */}
-                {/* Другие поля компании */}
                 <button type="submit">Create</button>
             </form>
         </div>

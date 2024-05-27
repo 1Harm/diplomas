@@ -12,7 +12,7 @@ export async function queryGpt35TurboCompletions(
     method: "POST",
     body: JSON.stringify({
       max_tokens: 2000,
-      model: "gpt-3.5-turbo-instruct",
+      model: "gpt-3.5-turbo",
       temperature: 0.3,
       messages: [
         { role: "system", content: prompt.split("Human:")[0] },

@@ -1,42 +1,16 @@
 import React, { useRef, useState } from "react";
 import PropTypes from "prop-types";
+import axios from "axios";
 
 import "./drop-file-input.css";
-import {
-  Button,
-  ButtonsRow,
-  Container,
-  Icon,
-  Panel,
-  PanelContent,
-  PanelHeader,
-  TextAreaInput,
-  WelcomeHeader,
-  SettingsModal,
-  Dashboard,
-  ButtonIcon,
-  TextInput,
-  ButtonLink,
-  UploadDatasetButton,
-  ViewSelect,
-  OpenAIErrorMessage,
-  // EmptyMessage,
-  DataLoadedMessage,
-  MissingApiKeyMessage,
-} from "./index.jsx";
-import { Loader } from "./layout/Loader.jsx";
-import { Table } from "./layout/Table.jsx";
-import { generateDashboard, generatePrompt } from "../openai/analyze.ts";
-import { getRandomDataset, sample } from "../openai/sample.ts";
-import { IDashboard, IDataset, ISettings } from "../types.ts";
-import { isDataValid, parseData, stringifyData } from "../utils/parseData.ts";
-import gtag from "../lib/gtag.ts";
+import { Button } from "./index.jsx";
 import { ImageConfig } from "../config/ImageConfig.js";
 import uploadImg from "../assets/cloud-upload-regular-240.png";
 import { useStateContext } from "../contexts/ContextProvider.js";
 
 const DropFileInput = (props) => {
   const wrapperRef = useRef(null);
+  const [file, setFile] = useState(null);
 
   const { currentColor } = useStateContext();
 
@@ -52,8 +26,10 @@ const DropFileInput = (props) => {
     const newFile = e.target.files[0];
     if (newFile) {
       const updatedList = [...fileList, newFile];
+      setFile(e.target.files[0]);
       setFileList(updatedList);
       props.onFileChange(updatedList);
+      props.onSubmit(newFile);
     }
   };
 
@@ -63,107 +39,27 @@ const DropFileInput = (props) => {
     setFileList(updatedList);
     props.onFileChange(updatedList);
   };
-
-  const [view, setView] = React.useState("dashboard");
-
-  const [settings, setSettings] = React.useState<ISettings>({
-    apikey: "",
-    sampleRows: 10,
-    model: "",
-  });
-  const [loading, setLoading] = React.useState(false);
-
-  const [data, setData] = React.useState<IDataset>();
-  const [userContext, setUserContext] = React.useState<string>("");
-
-  const [currentSampleIndex, setCurrentSampleIndex] = React.useState(-1);
-  const [dashboard, setDashboard] = React.useState<IDashboard | null>();
-  const [showSettings, setShowSettings] = React.useState(false);
-
-  React.useEffect(() => {
-    const config = localStorage.getItem("analyzer-settings");
-    if (config) {
-      setSettings(JSON.parse(config) as ISettings);
+  const handleUpload = async () => {
+    if (!file) return;
+    const formData = new FormData();
+    formData.append("file", file);
+    try {
+      const token = localStorage.getItem("token");
+      await axios.put(
+        `http://localhost:8080/api/companies/${companyId}/upload`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      alert("File successfully uploaded.");
+    } catch (error) {
+      console.error("Error during uploading file:", error);
+      alert("Error during uploading file. Please, try again.");
     }
-
-    const { data, dashboard, context, index } = getRandomDataset(-1);
-    setData(parseData(data));
-    setDashboard(dashboard);
-    setUserContext(context);
-    setCurrentSampleIndex(index);
-  }, []);
-
-  const handleAnalyze = React.useCallback(() => {
-    if (!settings.apikey) {
-      setShowSettings(true);
-    } else if (data) {
-      setLoading(true);
-      generateDashboard(
-        data,
-        userContext,
-        settings.sampleRows,
-        settings.apikey,
-        settings.model
-      )
-        .then((response) => {
-          setDashboard(response.dashboard);
-          setLoading(false);
-        })
-        .catch((err) => {
-          setDashboard(null);
-          setLoading(false);
-        });
-    }
-  }, [data, userContext, settings]);
-
-  const handleRandomDataset = React.useCallback(() => {
-    const { data, dashboard, context, index } =
-      getRandomDataset(currentSampleIndex);
-    setData(parseData(data));
-    setDashboard(dashboard);
-    setUserContext(context);
-    setCurrentSampleIndex(index);
-  }, [currentSampleIndex]);
-
-  // console.log(dashboard, stringifyData(data || []));
-
-  const handleClear = React.useCallback(() => {
-    setData(undefined);
-    setDashboard(null);
-    setUserContext("");
-  }, []);
-
-  const handleSettingsChange = React.useCallback((settings: ISettings) => {
-    localStorage.setItem("analyzer-settings", JSON.stringify(settings));
-    setSettings(settings);
-    setShowSettings(false);
-  }, []);
-
-  const handleShowSettings = React.useCallback(() => {
-    setShowSettings(true);
-  }, []);
-
-  const handleCloseSettings = React.useCallback(() => {
-    setShowSettings(false);
-  }, []);
-
-  const handleDatasetChange = React.useCallback((dataset: string) => {
-    gtag.report("event", "upload_data", {
-      event_category: "settings",
-      event_label: "uploaded",
-    });
-    setData(parseData(dataset));
-    setDashboard(null);
-  }, []);
-
-  const handleClick = React.useCallback(() => {
-    setUserContext(" ");
-  }, []);
-
-  const handleClearContext = React.useCallback(() => {
-    setUserContext("");
-  }, []);
-
+  };
   return (
     <>
       <div
@@ -207,6 +103,7 @@ const DropFileInput = (props) => {
             bgColor={currentColor}
             text="Upload data"
             borderRadius="10px"
+            onClick={handleUpload}
           />
         </div>
       ) : null}
@@ -216,6 +113,7 @@ const DropFileInput = (props) => {
 
 DropFileInput.propTypes = {
   onFileChange: PropTypes.func,
+  onSubmit: PropTypes.func,
 };
 
 export default DropFileInput;

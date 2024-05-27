@@ -56,7 +56,8 @@ export function SettingsModal(
             onChange={handleApiKeyChange}
             label={
               <>
-                API Key{" "}
+                API Key
+                {""}
                 <a
                   rel="noreferrer"
                   target="_blank"

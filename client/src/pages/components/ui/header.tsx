@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 
 import Logo from "./logo.tsx";
-import Dropdown from "./components/utils/dropdown.tsx";
 import MobileMenu from "./mobile-menu.tsx";
 import { Link } from "react-router-dom";
 
@@ -51,7 +50,7 @@ export default function Header() {
                   href="/signup"
                   className="btn-sm text-gray-200 bg-gray-900 hover:bg-gray-800 ml-3"
                 >
-                  <span>Sign up</span>
+                  <Link to="/signup">Sign up</Link>
                   <svg
                     className="w-3 h-3 fill-current text-gray-400 shrink-0 ml-2 -mr-1"
                     viewBox="0 0 12 12"

@@ -11,8 +11,7 @@ export function DataLoadedMessage(
   return (
     <div className={styles.emptyMessageContainer}>
       <div className={styles.emptyMessage}>
-        Click on <ButtonLink onClick={props.onAnalyze}>analyze</ButtonLink> to
-        generate the dashboard.
+        Click on <ButtonLink onClick={props.onAnalyze}>analyze</ButtonLink>
       </div>
     </div>
   );
