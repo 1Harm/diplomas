@@ -12,6 +12,11 @@ const AuthController = {
 
     try {
       const { username, email, password } = req.body;
+      const existingUser = await UserService.getUserByEmail(email);
+      if (existingUser) {
+        return res.status(400).json({ message: 'User with this email already exists'});
+      }
+
       const hashedPassword = await bcrypt.hash(password, 10);
 
       const user = await UserService.registerUser({
@@ -19,6 +24,12 @@ const AuthController = {
         email,
         password: hashedPassword,
       });
+
+      const token = jwt.sign(
+        { userId: user._id, role: user.role },
+        process.env.JWT_SECRET,
+        { expiresIn: '24h' }
+      );
 
       res.status(201).json(user);
     } catch (error) {
