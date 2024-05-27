@@ -22,6 +22,7 @@ const UploadCSV = ({ companyId }) => {
                 }
             });
             alert('File successfully uploaded.');
+            navigate('/company');
         } catch (error) {
             if (error.response && error.response.status === 403) {
                 navigate('/forbidden');
