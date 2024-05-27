@@ -77,6 +77,27 @@ const CompanyDataGrid = () => {
         navigate(`/create-company`);
     };
 
+    const handleUpdateCompanyRedirect = () => {
+        navigate(`/companies/${companyId}/update`);
+    };
+
+    const handleDeleteCompanyRedirect = async () => {
+        const confirmed = window.confirm('Are you sure you want to delete this company?');
+        if (confirmed) {
+            try {
+                const token = localStorage.getItem('token');
+                await axios.delete(`http://localhost:8080/api/companies/${companyId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                navigate(`/company`);
+            } catch (error) {
+                console.error('Error deleting company:', error);
+            }
+        }
+    };
+
     const handleLineChartByMonthsPageRedirect = () => {
         navigate(`/linechart-by-months`);
     }
@@ -130,6 +151,18 @@ const CompanyDataGrid = () => {
                                     onClick={handleUploadPageRedirect}
                                 >
                                     Upload new data
+                                </button>
+                                <button
+                                    className="px-4 py-2 bg-green-500 text-white rounded-md shadow-md hover:bg-green-600 focus:outline-none"
+                                    onClick={handleUpdateCompanyRedirect}
+                                >
+                                    Update Company
+                                </button>
+                                <button
+                                    className="px-4 py-2 bg-red-500 text-white rounded-md shadow-md hover:bg-red-600 focus:outline-none"
+                                    onClick={handleDeleteCompanyRedirect}
+                                >
+                                    Delete Company
                                 </button>
                             </div>
 
