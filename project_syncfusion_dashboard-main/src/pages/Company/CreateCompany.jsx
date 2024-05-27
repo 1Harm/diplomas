@@ -60,6 +60,7 @@ const CreateCompany = () => {
                 navigate('/forbidden');
             } else if (response.ok) {
                 console.log('Company created successfully!');
+                navigate('/company');
             } else {
                 const errorResponse = await response.json();
                 setErrorMessage(errorResponse.message);
