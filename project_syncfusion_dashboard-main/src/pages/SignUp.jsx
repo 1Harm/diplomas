@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
   const [userData, setUserData] = useState({
@@ -6,6 +7,7 @@ const SignUp = () => {
     email: '',
     password: ''
   });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
@@ -23,13 +25,21 @@ const SignUp = () => {
       });
       const data = await response.json();
       console.log(data);
-      if (data.success) {
-        console.log('Registration successful', data);
+      if (response.status === 201) {
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('userId', data.userId);
+        console.log(`${response.status} Registration successful`, data);
+        navigate('/create-company');
+      } else if (response.status === 400) {
+        console.log(`${response.status} Bad Request`, data.message);
+        alert(data.message);
       } else {
-        console.log('Registration failed', data.message);
+        console.log(`${response.status} Internal Server Error`, data.message);
+        alert(`Sorry, problems with server`);
       }
     } catch (error) {
       console.error('Error during registration:', error);
+      alert('Error during registration', error);
     }
   };
   
