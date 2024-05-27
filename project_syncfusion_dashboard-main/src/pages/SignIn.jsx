@@ -29,7 +29,7 @@ const SignIn = () => {
         console.log('Login successful', data);
         localStorage.setItem('token', data.token);
         localStorage.setItem('userId', data.userId);
-        navigate('/create-company');
+        navigate('/company');
       } else {
         console.log('Login failed', response.body);
         console.log('Login failed', loginData);
