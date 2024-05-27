@@ -8,12 +8,13 @@ import BarChart from '../../components/Charts/BarChart.jsx';
 import PieChart from '../../components/Charts/PieChart.jsx';
 import HistogramChart from '../../components/Charts/HistogramChart.jsx';
 import AreaChart from '../../components/Charts/AreaChart.jsx';
+import Logout from '../../components/Auth/Logout.jsx';
 
 const CompanyDataGrid = () => {
     const [companyData, setCompanyData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [companyName, setCompanyName] = useState('');
-    const { companyId } = useParams();
+    const [companyId, setCompanyId] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -21,21 +22,23 @@ const CompanyDataGrid = () => {
             try {
                 setLoading(true);
                 const token = localStorage.getItem('token');
-                const response = await axios.get(`http://localhost:8080/api/companies/${companyId}`, {
+                const response = await axios.get('http://localhost:8080/api/companies', {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
                 });
 
-                if (response.data && typeof response.data.data === 'object') {
-                    setCompanyName(response.data.name);
-                    const dataArray = Object.values(response.data.data);
+                if (response.data && response.data.length > 0) {
+                    const company = response.data[0];
+                    setCompanyId(company._id);
+                    setCompanyName(company.name);
+                    const dataArray = Object.values(company.data);
                     const rows = dataArray[0].map((_, index) => {
                         const rowData = dataArray.map((column) => column[index]);
                         return {
                             id: index,
                             ...rowData.reduce((acc, value, i) => {
-                                const columnName = Object.keys(response.data.data)[i];
+                                const columnName = Object.keys(company.data)[i];
                                 acc[columnName] = value;
                                 return acc;
                             }, {})
@@ -43,7 +46,7 @@ const CompanyDataGrid = () => {
                     });
                     setCompanyData(rows);
                 } else {
-                    console.error('Error fetching company data: Data is not in the expected format');
+                    setCompanyData(null);
                 }
             } catch (error) {
                 if (error.response && error.response.status === 403) {
@@ -57,9 +60,9 @@ const CompanyDataGrid = () => {
         };
 
         fetchCompanyData();
-    }, [companyId]);
+    }, [navigate]);
 
-    const columns = companyData.length > 0 ? Object.keys(companyData[0]).map((columnName) => ({
+    const columns = companyData && companyData.length > 0 ? Object.keys(companyData[0]).map((columnName) => ({
         field: columnName,
         headerName: columnName,
         flex: 1,
@@ -68,6 +71,10 @@ const CompanyDataGrid = () => {
 
     const handleUploadPageRedirect = () => {
         navigate(`/companies/${companyId}/upload`);
+    };
+
+    const handleCreateCompanyRedirect = () => {
+        navigate(`/create-company`);
     };
 
     const handleLineChartByMonthsPageRedirect = () => {
@@ -92,11 +99,22 @@ const CompanyDataGrid = () => {
 
     return (
         <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
+            <Logout />
             {loading ? (
                 <p className="text-xl font-semibold">Loading company data...</p>
             ) : (
                 <>
-                    {companyData.length === 0 ? (
+                    {companyData === null ? (
+                        <div className="flex flex-col items-center justify-center h-full">
+                            <p className="text-xl font-semibold">You don't have a company yet</p>
+                            <button
+                                className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 focus:outline-none"
+                                onClick={handleCreateCompanyRedirect}
+                            >
+                                Create Company
+                            </button>
+                        </div>
+                    ) : companyData.length === 0 ? (
                         <div className="flex flex-col items-center justify-center h-full">
                             <p className="text-xl font-semibold">Company data not loaded</p>
                             <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 focus:outline-none" onClick={handleUploadPageRedirect}>
