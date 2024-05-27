@@ -52,6 +52,7 @@ import Forbidden from "./pages/HttpStatuses/Forbidden.jsx";
 import ProtectedRoute from "./components/Exceptions/ProtectedRoute.jsx";
 import NotFound from "./pages/HttpStatuses/NotFound.jsx";
 import CompanyDataGridTest from "./pages/Company/CompanyMain.jsx";
+import UpdateCompany from "./pages/Company/UpdateCompany.jsx";
 
 const App = () => {
   const {
@@ -102,6 +103,7 @@ const App = () => {
                   <Route path="/company" element={<ProtectedRoute><CompanyDataGrid /></ProtectedRoute>} />
                   {/* <Route path="/company" element={<ProtectedRoute><CompanyDataGridTest /></ProtectedRoute>} /> */}
                   <Route path="/companies/:companyId/upload" element={<ProtectedRoute><CompanyCSV /></ProtectedRoute>} />
+                  <Route path="/companies/:id/update" element={<ProtectedRoute><UpdateCompany /></ProtectedRoute>} />
 
                   {/* graphs */}
                   <Route path="/linechart" element={<ProtectedRoute><LineChart /></ProtectedRoute>} />
