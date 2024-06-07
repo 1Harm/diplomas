@@ -11,6 +11,10 @@ import {
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { linearRegression, linearRegressionLine } from 'simple-statistics';
+<<<<<<< HEAD:client/src/components/Charts/PredictionLineChart.jsx
+=======
+import { useNavigate } from 'react-router-dom';
+>>>>>>> 33638dd01c1bd47871b3b68ebcfc98ed05ccee44:project_syncfusion_dashboard-main/src/components/Charts/PredictionLineChart.jsx
 
 const LineChart = () => {
   const [revenueData, setRevenueData] = useState([]);
@@ -18,6 +22,10 @@ const LineChart = () => {
   const [loading, setLoading] = useState(true);
   const [companyName, setCompanyName] = useState('');
   const [showPrediction, setShowPrediction] = useState(false);
+<<<<<<< HEAD:client/src/components/Charts/PredictionLineChart.jsx
+=======
+  const navigate = useNavigate();
+>>>>>>> 33638dd01c1bd47871b3b68ebcfc98ed05ccee44:project_syncfusion_dashboard-main/src/components/Charts/PredictionLineChart.jsx
   const userId = localStorage.getItem('userId');
   const currentYear = new Date().getFullYear();
   const startYear = 2000;
@@ -72,7 +80,15 @@ const LineChart = () => {
           setLoading(false);
         }
       } catch (error) {
+<<<<<<< HEAD:client/src/components/Charts/PredictionLineChart.jsx
         console.error('Error fetching revenue data:', error);
+=======
+        if (error.response && error.response.status === 403) {
+          navigate('/forbidden');
+        } else {
+          console.error('Error fetching company data:', error);
+        }
+>>>>>>> 33638dd01c1bd47871b3b68ebcfc98ed05ccee44:project_syncfusion_dashboard-main/src/components/Charts/PredictionLineChart.jsx
       }
     };
 
@@ -132,8 +148,12 @@ const LineChart = () => {
           ))}
         </SeriesCollectionDirective>
       </ChartComponent>
+<<<<<<< HEAD:client/src/components/Charts/PredictionLineChart.jsx
       <button className="px-4 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 focus:outline-none mb-15 "
         onClick={handlePrediction}>Prediction</button>
+=======
+      <button onClick={handlePrediction}>Prediction</button>
+>>>>>>> 33638dd01c1bd47871b3b68ebcfc98ed05ccee44:project_syncfusion_dashboard-main/src/components/Charts/PredictionLineChart.jsx
     </div>
   );
 };

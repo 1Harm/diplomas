@@ -70,4 +70,8 @@ const UpdateCompany = () => {
     );
 };
 
+<<<<<<< HEAD:client/src/pages/Company/UpdateCompany.jsx
 export default UpdateCompany;
+=======
+export default UpdateCompany;
+>>>>>>> 33638dd01c1bd47871b3b68ebcfc98ed05ccee44:project_syncfusion_dashboard-main/src/pages/Company/UpdateCompany.jsx

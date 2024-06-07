@@ -8,6 +8,10 @@ import BarChart from '../../components/Charts/BarChart.jsx';
 import PieChart from '../../components/Charts/PieChart.jsx';
 import HistogramChart from '../../components/Charts/HistogramChart.jsx';
 import AreaChart from '../../components/Charts/AreaChart.jsx';
+<<<<<<< HEAD:client/src/pages/Company/CompanyDataGrid.jsx
+=======
+import Logout from '../../components/Auth/Logout.jsx';
+>>>>>>> 33638dd01c1bd47871b3b68ebcfc98ed05ccee44:project_syncfusion_dashboard-main/src/pages/Company/CompanyDataGrid.jsx
 
 const CompanyDataGrid = () => {
     const [companyData, setCompanyData] = useState([]);
@@ -119,6 +123,7 @@ const CompanyDataGrid = () => {
     }
 
     return (
+<<<<<<< HEAD:client/src/pages/Company/CompanyDataGrid.jsx
         <div>
             {loading ? (
                 <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
@@ -283,6 +288,137 @@ const CompanyDataGrid = () => {
                                         By Months
                                     </button>
                                 </div>
+=======
+        <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
+            <Logout />
+            {loading ? (
+                <p className="text-xl font-semibold">Loading company data...</p>
+            ) : (
+                <>
+                    {companyData === null ? (
+                        <div className="flex flex-col items-center justify-center h-full">
+                            <p className="text-xl font-semibold">You don't have a company yet</p>
+                            <button
+                                className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 focus:outline-none"
+                                onClick={handleCreateCompanyRedirect}
+                            >
+                                Create Company
+                            </button>
+                        </div>
+                    ) : companyData.length === 0 ? (
+                        <div className="flex flex-col items-center justify-center h-full">
+                            <p className="text-xl font-semibold">Company data not loaded</p>
+                            <div className="flex justify-between items-center mb-4">
+                                <button className="px-4 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 focus:outline-none" onClick={handleUploadPageRedirect}>
+                                    Upload data
+                                </button>
+                                <button
+                                    className="px-4 py-2 bg-green-500 text-white rounded-md shadow-md hover:bg-green-600 focus:outline-none"
+                                    onClick={handleUpdateCompanyRedirect}
+                                >
+                                    Update Company
+                                </button>
+                                <button
+                                    className="px-4 py-2 bg-red-500 text-white rounded-md shadow-md hover:bg-red-600 focus:outline-none"
+                                    onClick={handleDeleteCompanyRedirect}
+                                >
+                                    Delete Company
+                                </button>
+                            </div>
+                        </div>
+                    ) : (
+                        <div>
+                            <div className="flex justify-between items-center mb-4">
+                                <h1 className="text-2xl font-bold">{companyName}</h1>
+                                <button
+                                    className="px-4 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 focus:outline-none"
+                                    onClick={handleUploadPageRedirect}
+                                >
+                                    Upload new data
+                                </button>
+                                <button
+                                    className="px-4 py-2 bg-green-500 text-white rounded-md shadow-md hover:bg-green-600 focus:outline-none"
+                                    onClick={handleUpdateCompanyRedirect}
+                                >
+                                    Update Company
+                                </button>
+                                <button
+                                    className="px-4 py-2 bg-red-500 text-white rounded-md shadow-md hover:bg-red-600 focus:outline-none"
+                                    onClick={handleDeleteCompanyRedirect}
+                                >
+                                    Delete Company
+                                </button>
+                            </div>
+
+                            <div style={{ height: 400, width: '100%' }}>
+                                <DataGrid
+                                    columnHeaderHeight={25}
+                                    rowHeight={35}
+                                    rows={companyData}
+                                    columns={columns}
+                                    sx={{
+                                        '& .MuiDataGrid-root': {
+                                            color: 'grey.300',
+                                            border: 'none',
+                                        },
+                                        '& .MuiDataGrid-cell': {
+                                            color: 'black',
+                                            borderBottom: '1px solid grey.800 !important',
+                                        },
+                                        '& .MuiDataGrid-columnHeaders': {
+                                            borderBottom: '1px solid grey.800 !important',
+                                        },
+                                        '& .MuiDataGrid-columnSeparator': {
+                                            visibility: 'hidden',
+                                        },
+                                    }}
+                                />
+                            </div>
+                            <div className="mt-8">
+                                <LineChart />
+                                <button
+                                    className="px-4 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 focus:outline-none"
+                                    onClick={handleLineChartByMonthsPageRedirect}
+                                >
+                                    By Months
+                                </button>
+                            </div>
+                            <div className="mt-8">
+                                <BarChart />
+                                <button
+                                    className="px-4 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 focus:outline-none"
+                                    onClick={handleBarChartByMonthsPageRedirect}
+                                >
+                                    By Months
+                                </button>
+                            </div>
+                            <div className="mt-8">
+                                <PieChart />
+                                <button
+                                    className="px-4 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 focus:outline-none"
+                                    onClick={handlePieChartByMonthsPageRedirect}
+                                >
+                                    By Months
+                                </button>
+                            </div>
+                            <div className="mt-8">
+                                <HistogramChart />
+                                <button
+                                    className="px-4 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 focus:outline-none"
+                                    onClick={handleHistogramChartByMonthsPageRedirect}
+                                >
+                                    By Months
+                                </button>
+                            </div>
+                            <div className="mt-8">
+                                <AreaChart />
+                                <button
+                                    className="px-4 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 focus:outline-none"
+                                    onClick={handleAreaChartByMonthsPageRedirect}
+                                >
+                                    By Months
+                                </button>
+>>>>>>> 33638dd01c1bd47871b3b68ebcfc98ed05ccee44:project_syncfusion_dashboard-main/src/pages/Company/CompanyDataGrid.jsx
                             </div>
                         </div>
                     )}
@@ -292,4 +428,8 @@ const CompanyDataGrid = () => {
     );
 };
 
+<<<<<<< HEAD:client/src/pages/Company/CompanyDataGrid.jsx
 export default CompanyDataGrid;
+=======
+export default CompanyDataGrid;
+>>>>>>> 33638dd01c1bd47871b3b68ebcfc98ed05ccee44:project_syncfusion_dashboard-main/src/pages/Company/CompanyDataGrid.jsx

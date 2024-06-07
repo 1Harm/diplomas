@@ -2,20 +2,27 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+<<<<<<< HEAD:client/src/pages/Company/UploadCSV.jsx
 import '../../components/drop-file-input.css';
 import uploadImg from '../../assets/cloud-upload-regular-240.png';
 
+=======
+>>>>>>> 33638dd01c1bd47871b3b68ebcfc98ed05ccee44:project_syncfusion_dashboard-main/src/pages/Company/UploadCSV.jsx
 const UploadCSV = ({ companyId }) => {
     const [file, setFile] = useState(null);
     const navigate = useNavigate();
 
     const handleFileChange = (e) => {
+<<<<<<< HEAD:client/src/pages/Company/UploadCSV.jsx
         const selectedFile = e.target.files[0];
         if (selectedFile && selectedFile.type === 'text/csv') {
             setFile(selectedFile);
         } else {
             alert('Пожалуйста, выберите файл CSV.');
         }
+=======
+        setFile(e.target.files[0]);
+>>>>>>> 33638dd01c1bd47871b3b68ebcfc98ed05ccee44:project_syncfusion_dashboard-main/src/pages/Company/UploadCSV.jsx
     };
 
     const handleUpload = async () => {
@@ -29,19 +36,29 @@ const UploadCSV = ({ companyId }) => {
                     'Authorization': `Bearer ${token}`
                 }
             });
+<<<<<<< HEAD:client/src/pages/Company/UploadCSV.jsx
             alert('Файл успешно загружен.');
+=======
+            alert('File successfully uploaded.');
+>>>>>>> 33638dd01c1bd47871b3b68ebcfc98ed05ccee44:project_syncfusion_dashboard-main/src/pages/Company/UploadCSV.jsx
             navigate('/company');
         } catch (error) {
             if (error.response && error.response.status === 403) {
                 navigate('/forbidden');
             } else {
+<<<<<<< HEAD:client/src/pages/Company/UploadCSV.jsx
                 console.error('Ошибка при загрузке файла:', error);
                 alert('Ошибка при загрузке файла. Пожалуйста, попробуйте еще раз.');
+=======
+                console.error('Error during uploading file:', error);
+                alert('Error during uploading file. Please, try again.');
+>>>>>>> 33638dd01c1bd47871b3b68ebcfc98ed05ccee44:project_syncfusion_dashboard-main/src/pages/Company/UploadCSV.jsx
             }
         }
     };
 
     return (
+<<<<<<< HEAD:client/src/pages/Company/UploadCSV.jsx
         <div className="h-full m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
             <h2 className="flex flex-col items-center justify-center text-xl font-semibold mb-4">Upload data of your company in CSV file</h2>
             <div className="drop-file-input">
@@ -67,6 +84,12 @@ const UploadCSV = ({ companyId }) => {
                     Upload your data
                 </button>
             </div>
+=======
+        <div>
+            <h2>Upload Your Company Data</h2>
+            <input type="file" onChange={handleFileChange} />
+            <button onClick={handleUpload}>Upload</button>
+>>>>>>> 33638dd01c1bd47871b3b68ebcfc98ed05ccee44:project_syncfusion_dashboard-main/src/pages/Company/UploadCSV.jsx
         </div>
     );
 };

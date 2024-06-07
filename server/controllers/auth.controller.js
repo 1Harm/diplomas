@@ -14,9 +14,13 @@ const AuthController = {
       const { username, email, password } = req.body;
       const existingUser = await UserService.getUserByEmail(email);
       if (existingUser) {
+<<<<<<< HEAD
         return res
           .status(400)
           .json({ message: "User with this email already exists" });
+=======
+        return res.status(400).json({ message: 'User with this email already exists'});
+>>>>>>> 33638dd01c1bd47871b3b68ebcfc98ed05ccee44
       }
 
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -30,7 +34,11 @@ const AuthController = {
       const token = jwt.sign(
         { userId: user._id, role: user.role },
         process.env.JWT_SECRET,
+<<<<<<< HEAD
         { expiresIn: "24h" }
+=======
+        { expiresIn: '24h' }
+>>>>>>> 33638dd01c1bd47871b3b68ebcfc98ed05ccee44
       );
 
       res.status(201).json({ token, userId: user._id });
